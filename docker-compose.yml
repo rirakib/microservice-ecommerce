@@ -1,21 +1,6 @@
 version: '3.8'
 
 services:
-  product-service:
-    build:
-      context: ./services/product-service
-      dockerfile: Dockerfile
-    container_name: product-service
-    ports:
-      - "4002:80"
-    volumes:
-      - ./services/product-service/src:/var/www/html
-    environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html/public
-    depends_on:
-      - mysql
-    env_file:
-      - ./services/product-service/src/.env
 
   inventory-service:
     build:
@@ -32,6 +17,41 @@ services:
       - mysql
     env_file:
       - ./services/inventory-service/src/.env
+
+
+  product-service:
+    build:
+      context: ./services/product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "4002:80"
+    volumes:
+      - ./services/product-service/src:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - mysql
+    env_file:
+      - ./services/product-service/src/.env
+
+  
+
+  api-gateway:
+    build:
+      context: ./api-gateways
+      dockerfile: Dockerfile
+    container_name: api-service
+    ports:
+      - "4000:80"
+    volumes:
+      - ./api-gateways/src:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - mysql
+    env_file:
+      - ./api-gateways/src/.env
 
   mysql:
     image: mysql:8.0
