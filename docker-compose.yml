@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  product-service:
+    build:
+      context: ./services/product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "4002:80"
+    volumes:
+      - ./services/product-service/src:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - mysql
+    env_file:
+      - ./services/product-service/src/.env
+
+  inventory-service:
+    build:
+      context: ./services/inventory-service
+      dockerfile: Dockerfile
+    container_name: inventory-service
+    ports:
+      - "4001:80"
+    volumes:
+      - ./services/inventory-service/src:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - mysql
+    env_file:
+      - ./services/inventory-service/src/.env
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
