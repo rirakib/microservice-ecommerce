@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                   // Target modern JavaScript (ES6)
+    "module": "CommonJS",              // Module system (CommonJS for Node.js)
+    "lib": ["ES6", "DOM"],             // TypeScript will include DOM and ES6 libs
+    "outDir": "./dist",                // Compiled JavaScript files go here
+    "rootDir": "./src",                // All TypeScript files are in the 'src' folder
+    "strict": true,                    // Enable strict type-checking
+    "esModuleInterop": true,           // Allow compatibility between CommonJS and ES Modules
+    "skipLibCheck": true,              // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Ensures consistent file naming across platforms
+    "baseUrl": "./src",                // Base directory for resolving non-relative module names
+    "paths": {
+      "@models/*": ["models/*"],       // Path alias for models folder
+      "@controllers/*": ["controllers/*"], // Path alias for controllers folder
+      "@utils/*": ["utils/*"]          // Path alias for utils folder
+    }
+  },
+  "include": ["src/**/*"],             // Include all TypeScript files in the 'src' folder
+  "exclude": ["node_modules", "dist"]  // Exclude 'node_modules' and 'dist' directories
+}
