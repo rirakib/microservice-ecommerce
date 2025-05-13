@@ -53,6 +53,23 @@ services:
     env_file:
       - ./api-gateways/src/.env
 
+
+  admin-service:
+    build:
+      context: ./admin-service
+      dockerfile: Dockerfile
+    container_name: api-service
+    ports:
+      - "4003:80"
+    volumes:
+      - ./admin-service/src:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - mysql
+    env_file:
+      - ./admin-service/src/.env
+
   mysql:
     image: mysql:8.0
     container_name: mysql
